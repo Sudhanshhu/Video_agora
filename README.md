@@ -1,4 +1,4 @@
-# Video Broadcasting App()
+# Video Broadcasting App(1 to 1 VideoCall)
 
 This project is a **Flutter-based video broadcasting application** built using the **Agora SDK**. It allows one user to **broadcast live video** while others join as **audience members** to watch in real-time.
 
