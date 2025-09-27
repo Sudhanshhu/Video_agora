@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "638555295008",
+    "project_id": "grootantest-71a14",
+    "storage_bucket": "grootantest-71a14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638555295008:android:14b43a1c2bfb3956f61b45",
+        "android_client_info": {
+          "package_name": "com.cbo.moibile_reporting_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638555295008-vb2vhn4o8f6474sr1kh8aclpc23qtbq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr67uuEj-e8Fo_td6WTl4y72J6CtADn4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638555295008-ufe8qjvpqqtrcrtfachqo9qsu0m1t8cq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "638555295008-88to4m739veda0rc8qefc3f4hu5a8d08.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.videoCall"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638555295008:android:a97b7a8698df12ebf61b45",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638555295008-vb2vhn4o8f6474sr1kh8aclpc23qtbq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr67uuEj-e8Fo_td6WTl4y72J6CtADn4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638555295008-ufe8qjvpqqtrcrtfachqo9qsu0m1t8cq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "638555295008-88to4m739veda0rc8qefc3f4hu5a8d08.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.videoCall"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
