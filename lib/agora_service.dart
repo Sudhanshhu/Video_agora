@@ -1,9 +1,7 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/foundation.dart';
 
-class AgoraService {
-  final String appId =
-      "6e64b833fca54dbeb104f52653e590f8"; // Replace with your Agora App ID
+class AgoraServiceWorking {
   RtcEngine? _engine;
 
   // ✅ Add a public getter

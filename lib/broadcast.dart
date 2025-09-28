@@ -4,14 +4,7 @@ import 'package:ecommerce/core/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-// Fill in the app ID obtained from Agora console
-const appId = "6e64b833fca54dbeb104f52653e590f8";
-// Fill in the temporary token generated from Agora Console
-const token =
-    "007eJxTYKg4mCK2btuvh0zt2e/nKSz94H3kTj3PL7EPFnxzNJ65ZDIoMJilmpkkWRgbpyUnmpqkJKUmGRqYpJkamZkap5paGqRZhDJfy2gIZGQ4MpORiZEBAkF8HoaU1Nz8+OSMxLy81BwGBgCb/iLJ";
-// "<-- Insert token -->";
-// Fill in the channel name you used to generate the token
-const channel = "demo_channel";
+import 'core/constants/app_config.dart';
 
 // Main App Widget
 class BroadCastAgora extends StatelessWidget {
@@ -64,8 +57,8 @@ class _MainScreenScreenState extends State<_MainScreen> {
   // Set up the Agora RTC engine instance
   Future<void> _initializeAgoraVideoSDK() async {
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(const RtcEngineContext(
-      appId: appId,
+    await _engine.initialize(RtcEngineContext(
+      appId: AppConfig().config!.appId,
       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
     ));
   }
@@ -104,8 +97,8 @@ class _MainScreenScreenState extends State<_MainScreen> {
   // Join a channel
   Future<void> _joinChannel() async {
     await _engine.joinChannel(
-      token: token,
-      channelId: channel,
+      token: AppConfig().config!.token,
+      channelId: AppConfig().config!.channel,
       options: ChannelMediaOptions(
           autoSubscribeVideo: true,
           autoSubscribeAudio: true,
@@ -176,7 +169,7 @@ class _MainScreenScreenState extends State<_MainScreen> {
         controller: VideoViewController.remote(
           rtcEngine: _engine,
           canvas: VideoCanvas(uid: _remoteUid),
-          connection: const RtcConnection(channelId: channel),
+          connection: RtcConnection(channelId: AppConfig().config!.channel),
         ),
       );
     } else {
