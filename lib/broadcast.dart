@@ -4,7 +4,7 @@ import 'package:ecommerce/core/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'core/constants/app_config.dart';
+import 'core/constants/agora_config.dart';
 
 // Main App Widget
 class BroadCastAgora extends StatelessWidget {
@@ -58,7 +58,7 @@ class _MainScreenScreenState extends State<_MainScreen> {
   Future<void> _initializeAgoraVideoSDK() async {
     _engine = createAgoraRtcEngine();
     await _engine.initialize(RtcEngineContext(
-      appId: AppConfig().config!.appId,
+      appId: AgoraConfig().config!.appId,
       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
     ));
   }
@@ -97,8 +97,8 @@ class _MainScreenScreenState extends State<_MainScreen> {
   // Join a channel
   Future<void> _joinChannel() async {
     await _engine.joinChannel(
-      token: AppConfig().config!.token,
-      channelId: AppConfig().config!.channel,
+      token: AgoraConfig().config!.token,
+      channelId: AgoraConfig().config!.channel,
       options: ChannelMediaOptions(
           autoSubscribeVideo: true,
           autoSubscribeAudio: true,
@@ -169,7 +169,7 @@ class _MainScreenScreenState extends State<_MainScreen> {
         controller: VideoViewController.remote(
           rtcEngine: _engine,
           canvas: VideoCanvas(uid: _remoteUid),
-          connection: RtcConnection(channelId: AppConfig().config!.channel),
+          connection: RtcConnection(channelId: AgoraConfig().config!.channel),
         ),
       );
     } else {

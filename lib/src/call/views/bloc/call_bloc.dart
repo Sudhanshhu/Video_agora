@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:ecommerce/core/constants/app_config.dart';
+import 'package:ecommerce/core/constants/agora_config.dart';
 import 'package:ecommerce/core/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -151,12 +151,12 @@ class CallBloc extends Bloc<CallEvent, CallState> {
       await _engine.leaveChannelEx(
         connection: RtcConnection(
           channelId: _channelName,
-          localUid: AppConfig().screenShareUid,
+          localUid: AgoraConfig().screenShareUid,
         ),
       );
 
       emit(state.copyWith(isScreenSharing: false));
-      add(UserLeftEvent(AppConfig().screenShareUid));
+      add(UserLeftEvent(AgoraConfig().screenShareUid));
     } else {
       // 1. Start screen capture
       await _engine.startScreenCapture(
@@ -180,7 +180,7 @@ class CallBloc extends Bloc<CallEvent, CallState> {
         token: _token,
         connection: RtcConnection(
           channelId: _channelName,
-          localUid: AppConfig().screenShareUid,
+          localUid: AgoraConfig().screenShareUid,
         ),
         options: const ChannelMediaOptions(
           clientRoleType: ClientRoleType.clientRoleBroadcaster,
@@ -201,7 +201,7 @@ class CallBloc extends Bloc<CallEvent, CallState> {
       add(
         UserJoinedEvent(
           Participant(
-              uid: AppConfig().screenShareUid,
+              uid: AgoraConfig().screenShareUid,
               isLocal: true,
               isScreenSharing: true),
         ),

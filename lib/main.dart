@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/di/dependency_injection.dart';
-import 'core/utils/pref.dart';
 import 'src/auth/presentation/bloc/auth_bloc.dart';
+import 'src/call/views/bloc/call_bloc.dart';
 import 'src/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 
 void main() async {
@@ -16,27 +16,24 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     await setupDependencies();
-    await SharedPrefs.init();
-
     FlutterError.onError = (details) {
       FlutterError.presentError(details);
     };
 
-    runApp(const MyAppB());
+    runApp(const MyApp());
   }, (error, stackTrace) {
-    // logSink.log(error.toString());
     debugPrint('Error: $error\nStackTrace: $stackTrace');
   });
 }
 
-class MyAppB extends StatefulWidget {
-  const MyAppB({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
-  State<MyAppB> createState() => _MyAppBState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppBState extends State<MyAppB> {
+class _MyAppState extends State<MyApp> {
   final bool _showPerformanceOverlay = false;
 
   @override
@@ -53,12 +50,15 @@ class _MyAppBState extends State<MyAppB> {
           create: (context) => sl<HomeBloc>(),
         ),
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          showPerformanceOverlay: _showPerformanceOverlay,
-          title: 'Sales Bets',
-          theme: ThemeData.dark(),
-          home: const OnBoardingScreen()),
+      child: BlocProvider(
+        create: (context) => CallBloc(),
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            showPerformanceOverlay: _showPerformanceOverlay,
+            title: 'Sales Bets',
+            theme: ThemeData.dark(),
+            home: const OnBoardingScreen()),
+      ),
     );
   }
 }

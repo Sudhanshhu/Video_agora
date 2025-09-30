@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../../core/common/widget/buttons/loading_view.dart';
+import '../../../../core/common/widget/loading_view.dart';
 import '../../../../core/common/widget/gradient_background.dart';
 import '../../../../core/utils/media_res.dart';
 import '../../../auth/presentation/pages/login_page.dart';
@@ -39,11 +39,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: BlocConsumer<OnBoardingCubit, OnBoardingState>(
           listener: (context, state) {
             if (state is OnBoardingStatus && !state.isFirstTimer) {
-              Navigator.push(context, MaterialPageRoute(builder: (_) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) {
                 return const AuthWrapper();
               }));
             } else if (state is UserCached) {
-              Navigator.push(context, MaterialPageRoute(builder: (_) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) {
                 return const AuthWrapper();
               }));
             }

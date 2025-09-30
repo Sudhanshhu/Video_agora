@@ -8,9 +8,12 @@ import '../../src/auth/domain/repositories/auth_repository.dart';
 import '../../src/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../utils/pref.dart';
+
 final sl = GetIt.instance;
 
 Future<void> setupDependencies() async {
+  await SharedPrefs.init();
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl());
   sl.registerFactory(() => OnBoardingCubit());
