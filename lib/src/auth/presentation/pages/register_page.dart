@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (state is Authenticated) {
             fToast("Login Successful", type: AlertType.success);
             Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return HomePage(user: state.user); // Replace with your home page
+              return const HomeScreen(); // Replace with your home page
             }));
           } else if (state is AuthError) {
             fToast(state.message, type: AlertType.failure);

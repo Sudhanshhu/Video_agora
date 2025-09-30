@@ -45,11 +45,7 @@ class CommonScaffold extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: gradient ??
               const LinearGradient(
-                colors: [
-                  Color(0xFF1E1E2C),
-                  Color(0xFF2A2A40),
-                  Color(0xFF3D3D60),
-                ],
+                colors: [Colors.white, Colors.teal],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

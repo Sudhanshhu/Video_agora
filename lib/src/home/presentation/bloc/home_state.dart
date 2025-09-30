@@ -1,23 +1,31 @@
-part of 'home_bloc.dart';
+import 'package:ecommerce/src/home/domain/entities/user.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class HomeState extends Equatable {
-  const HomeState();
+enum HomeStatus { initial, loading, success, failure }
+
+class HomeState extends Equatable {
+  final List<ApiUser> users;
+  final HomeStatus status;
+  final String? error;
+
+  const HomeState({
+    this.users = const [],
+    this.status = HomeStatus.initial,
+    this.error,
+  });
+
+  HomeState copyWith({
+    List<ApiUser>? users,
+    HomeStatus? status,
+    String? error,
+  }) {
+    return HomeState(
+      users: users ?? this.users,
+      status: status ?? this.status,
+      error: error,
+    );
+  }
 
   @override
-  List<Object> get props => [];
-}
-
-final class HomeInitial extends HomeState {}
-
-class HomeLoading extends HomeState {}
-
-class HomeLoaded extends HomeState {
-  final List<EventEntity> events;
-  final bool isStreamingActive;
-  const HomeLoaded(this.events, {this.isStreamingActive = false});
-}
-
-class HomeError extends HomeState {
-  final String message;
-  const HomeError(this.message);
+  List<Object?> get props => [users, status, error];
 }
