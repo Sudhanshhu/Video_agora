@@ -1,4 +1,4 @@
-# Video Broadcasting App(1 to 1 VideoCall)
+# Video CALLING App(1 to 1 VideoCall)
 
 This project is a **Flutter-based video broadcasting application** built using the **Agora SDK**. It allows one user to **broadcast live video** while others join as **audience members** to watch in real-time.
 
@@ -11,6 +11,33 @@ No additional setup or configuration is required.
 Just clone the repository and run it like any other Flutter project.
 
 ---
+
+# 📱 Agora Video Calling App
+
+This Flutter project implements **real-time video calling** using [Agora RTC SDK](https://www.agora.io).  
+
+It supports:
+
+- 🔊 **Audio / Video Calls**  
+- 🎤 Mute / Unmute Microphone  
+- 📷 Enable / Disable Camera  
+- 🔄 Switch Camera (front / back)  
+- 🖥️ Screen Sharing (Android)  
+- ⚡ Token validation from Firestore  
+
+
+
+## 🚀 Features
+
+- Video calling between multiple devices in the same channel.  
+- Agora Token is **fetched from Firestore** dynamically.  
+- If the token is **expired**, a **toast error message** will be shown when trying to join.  
+- Toast messages are shown for important events like:
+  - ✅ Successfully joining a channel  
+  - ✅ Remote user joining  
+  - ✅ Remote user leaving  
+  - ❌ Token errors or expired tokens  
+
 
 ## 🚀 Getting Started
 
