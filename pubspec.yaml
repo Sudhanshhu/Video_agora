@@ -76,5 +76,5 @@ flutter:
     # - assets/icons/ 
     # - above to get the icons for the app had file stg.jpg prod.jpg dev.jpg
     # - for which you want to create the launcher icon
-    - assets/icon/
+    # - assets/icon/
 

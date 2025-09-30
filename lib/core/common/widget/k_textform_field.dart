@@ -1,7 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'buttons/k_icon.dart';
 import 'cmn_text.dart';
 
 enum InputType { text, decimal, number, email, password, multiline, dateTime }
@@ -141,7 +139,7 @@ class KTextFormField extends StatelessWidget {
           decoration: InputDecoration(
             isDense: true,
             prefixIcon: prefixWidget ??
-                (prefixIconData != null ? KIcon(prefixIconData!) : null),
+                (prefixIconData != null ? Icon(prefixIconData!) : null),
             hintText: hintText,
             label: Row(
               mainAxisSize: MainAxisSize.min,

@@ -2,10 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/core/toast.dart';
 
-class AppConfig {
-  static final AppConfig _instance = AppConfig._internal();
-  factory AppConfig() => _instance;
-  AppConfig._internal();
+class AgoraConfig {
+  static final AgoraConfig _instance = AgoraConfig._internal();
+  factory AgoraConfig() => _instance;
+  AgoraConfig._internal();
 
   AgoraConfigModel? _config;
 

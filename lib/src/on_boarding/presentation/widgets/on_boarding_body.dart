@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/common/widget/buttons/buttons.dart';
+import '../../../../core/common/widget/buttons.dart';
 import '../../../../core/common/widget/cmn_text.dart';
 import '../../domain/entities/page_content.dart';
 import '../cubit/on_boarding_cubit.dart';

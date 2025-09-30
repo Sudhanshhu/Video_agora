@@ -1,4 +1,5 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:ecommerce/core/constants/agora_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/call_bloc.dart';
@@ -22,16 +23,6 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   // Display remote participants in a grid
   Widget buildVideoGrid(CallState state) {
     final participants = state.participants;
@@ -42,6 +33,65 @@ class _CallScreenState extends State<CallScreen> {
           'Waiting for remote users...',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
+      );
+    }
+    final int? screenShareId =
+        participants.any((p) => p.uid == AgoraConfig().screenShareUid)
+            ? AgoraConfig().screenShareUid
+            : null;
+    if (screenShareId != null) {
+      final screenSharer = participants.firstWhere(
+          (p) => p.uid == screenShareId,
+          orElse: () => participants[0]);
+      return Column(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Container(
+              color: Colors.black,
+              child: AgoraVideoView(
+                controller: screenSharer.isLocal
+                    ? VideoViewController(
+                        rtcEngine: state.rtcEngine!,
+                        canvas: VideoCanvas(uid: screenSharer.uid),
+                      )
+                    : VideoViewController.remote(
+                        rtcEngine: state.rtcEngine!,
+                        connection:
+                            RtcConnection(channelId: widget.channelName),
+                        canvas: VideoCanvas(uid: screenSharer.uid),
+                      ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: participants
+                  .where((p) => p.uid != screenSharer.uid)
+                  .map((participant) => Container(
+                        width: 120,
+                        margin: const EdgeInsets.all(4),
+                        color: Colors.black,
+                        child: AgoraVideoView(
+                          controller: participant.isLocal
+                              ? VideoViewController(
+                                  rtcEngine: state.rtcEngine!,
+                                  canvas: VideoCanvas(uid: participant.uid),
+                                )
+                              : VideoViewController.remote(
+                                  rtcEngine: state.rtcEngine!,
+                                  connection: RtcConnection(
+                                      channelId: widget.channelName),
+                                  canvas: VideoCanvas(uid: participant.uid),
+                                ),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ],
       );
     }
 
