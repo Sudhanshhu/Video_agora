@@ -103,6 +103,7 @@ class SignInForm extends StatelessWidget {
             KTextFormField(
               controller: emailController,
               hintText: "Email",
+              prefixIconData: Icons.email,
               inputType: InputType.email,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -119,6 +120,7 @@ class SignInForm extends StatelessWidget {
               controller: passwordController,
               obscureText: true,
               hintText: 'Password',
+              prefixIconData: Icons.lock,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your password';

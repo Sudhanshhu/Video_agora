@@ -213,7 +213,7 @@ class _CallScreenState extends State<CallScreen> {
                           backgroundColor: Colors.red,
                           child: const Icon(Icons.call_end),
                         ),
-                        Text("AAA ${state.participants.length}"),
+                        Text("${state.participants.length}"),
                       ],
                     ),
                   ),

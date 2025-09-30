@@ -144,7 +144,7 @@ class KTextFormField extends StatelessWidget {
             label: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                KText(
                   hintText ?? "",
                 ),
                 if (mandatory)
@@ -156,16 +156,16 @@ class KTextFormField extends StatelessWidget {
               ],
             ),
             enabledBorder: isUnderLine
-                ? UnderlineInputBorder(
+                ? const UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: colorScheme.onSurfaceVariant,
+                      color: Colors.teal,
                       width: 0.5,
                     ),
                   )
                 : OutlineInputBorder(
                     borderRadius: BorderRadius.circular(curve),
-                    borderSide: BorderSide(
-                      color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+                    borderSide: const BorderSide(
+                      color: Colors.teal,
                       width: 0.5,
                     ),
                   ),
