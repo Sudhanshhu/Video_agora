@@ -50,70 +50,75 @@ class CallBloc extends Bloc<CallEvent, CallState> {
       return emit(state.copyWith(errorMessage: "Please give permission"));
     }
 
-    // Create Agora engine
-    _engine = createAgoraRtcEngineEx();
-    await _engine.initialize(RtcEngineContext(appId: event.appId));
+    try {
+      // Create Agora engine
+      _engine = createAgoraRtcEngineEx();
+      await _engine.initialize(RtcEngineContext(appId: event.appId));
 
-    // Enable video
-    await _engine.enableVideo();
+      // Enable video
+      await _engine.enableVideo();
 
-    _engine.registerEventHandler(
-      RtcEngineEventHandler(onJoinChannelSuccess: (connection, elapsed) {
-        fToast(
-            "joined successfully  ${connection.localUid} Channel $_channelName",
-            type: AlertType.success);
-        add(UserJoinedEvent(
-            Participant(uid: connection.localUid ?? _localUid, isLocal: true)));
-      }, onUserJoined: (connection, remoteUid, elapsed) {
-        fToast("Remote user id $remoteUid");
-        add(UserJoinedEvent(Participant(uid: remoteUid, isLocal: false)));
-      }, onUserOffline: (RtcConnection connection, int remoteUid,
-          UserOfflineReasonType reason) {
-        fToast("Left $remoteUid");
-        add(UserLeftEvent(remoteUid));
-      }, onError: (err, msg) {
-        fToast("Agora Error: $err - $msg", type: AlertType.failure);
-        emit(state.copyWith(errorMessage: err.name));
-      }, onLocalVideoStateChanged: (VideoSourceType source,
-          LocalVideoStreamState state, LocalVideoStreamReason error) {
-        fToast(
-            '[onLocalVideoStateChanged] source: $source, state: $state, error: $error');
-        if (!(source == VideoSourceType.videoSourceScreen ||
-            source == VideoSourceType.videoSourceScreenPrimary)) {
-          return;
-        }
+      _engine.registerEventHandler(
+        RtcEngineEventHandler(onJoinChannelSuccess: (connection, elapsed) {
+          fToast(
+              "joined successfully  ${connection.localUid} Channel $_channelName",
+              type: AlertType.success);
+          add(UserJoinedEvent(Participant(
+              uid: connection.localUid ?? _localUid, isLocal: true)));
+        }, onUserJoined: (connection, remoteUid, elapsed) {
+          fToast("Remote user id $remoteUid");
+          add(UserJoinedEvent(Participant(uid: remoteUid, isLocal: false)));
+        }, onUserOffline: (RtcConnection connection, int remoteUid,
+            UserOfflineReasonType reason) {
+          fToast("Left $remoteUid");
+          add(UserLeftEvent(remoteUid));
+        }, onError: (err, msg) {
+          fToast("Agora Error: $err - $msg", type: AlertType.failure);
+          emit(state.copyWith(errorMessage: err.name));
+        }, onLocalVideoStateChanged: (VideoSourceType source,
+            LocalVideoStreamState state, LocalVideoStreamReason error) {
+          fToast(
+              '[onLocalVideoStateChanged] source: $source, state: $state, error: $error');
+          if (!(source == VideoSourceType.videoSourceScreen ||
+              source == VideoSourceType.videoSourceScreenPrimary)) {
+            return;
+          }
 
-        switch (state) {
-          case LocalVideoStreamState.localVideoStreamStateEncoding:
-            fToast("Screen sharing TRUE", type: AlertType.success);
-            break;
-          case LocalVideoStreamState.localVideoStreamStateFailed:
-            fToast("Screen sharing FALSE", type: AlertType.success);
-            break;
-          default:
-            break;
-        }
-      }),
-    );
+          switch (state) {
+            case LocalVideoStreamState.localVideoStreamStateEncoding:
+              fToast("Screen sharing TRUE", type: AlertType.success);
+              break;
+            case LocalVideoStreamState.localVideoStreamStateFailed:
+              fToast("Screen sharing FALSE", type: AlertType.success);
+              break;
+            default:
+              break;
+          }
+        }),
+      );
 
-    // Start preview before joining
-    await _engine.startPreview();
+      // Start preview before joining
+      await _engine.startPreview();
 
-    final randomUid = Random().nextInt(100000);
+      final randomUid = Random().nextInt(100000);
 
-    await _engine.joinChannel(
-      token: _token,
-      channelId: _channelName,
-      uid: randomUid,
-      options: const ChannelMediaOptions(
-        clientRoleType: ClientRoleType.clientRoleBroadcaster,
-        publishCameraTrack: true,
-        publishMicrophoneTrack: true,
-        autoSubscribeVideo: true,
-        autoSubscribeAudio: true,
-      ),
-    );
-    emit(state.copyWith(isCallActive: true, rtcEngine: _engine));
+      await _engine.joinChannel(
+        token: _token,
+        channelId: _channelName,
+        uid: randomUid,
+        options: const ChannelMediaOptions(
+          clientRoleType: ClientRoleType.clientRoleBroadcaster,
+          publishCameraTrack: true,
+          publishMicrophoneTrack: true,
+          autoSubscribeVideo: true,
+          autoSubscribeAudio: true,
+        ),
+      );
+      emit(state.copyWith(isCallActive: true, rtcEngine: _engine));
+    } catch (e) {
+      fToast(e.toString(), type: AlertType.failure);
+      emit(state.copyWith(errorMessage: e.toString()));
+    }
   }
 
   void _onUserJoined(UserJoinedEvent event, Emitter<CallState> emit) {
