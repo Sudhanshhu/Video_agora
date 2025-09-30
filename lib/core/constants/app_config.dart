@@ -41,11 +41,13 @@ class AppConfig {
   String get token => _config?.token ?? '';
   String get channel => _config?.channel ?? '';
   String get certificate => _config?.primaryCertificate ?? '';
+  int get screenShareUid => _config?.screenShareUid ?? 2001;
 }
 
 class AgoraConfigModel {
   final String appId;
   final String token;
+  final int screenShareUid;
   final String channel;
   final String primaryCertificate;
 
@@ -54,6 +56,7 @@ class AgoraConfigModel {
     required this.token,
     required this.channel,
     required this.primaryCertificate,
+    required this.screenShareUid,
   });
 
   factory AgoraConfigModel.fromMap(Map<String, dynamic> map) {
@@ -62,6 +65,8 @@ class AgoraConfigModel {
       token: map['token'],
       channel: map['channel'],
       primaryCertificate: map['primaryCertificate'],
+      screenShareUid:
+          map['screenShareUid'] ?? 2001, // Default to 2001 if not provided
     );
   }
 }

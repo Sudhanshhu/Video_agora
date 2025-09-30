@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../adv_videocall.dart';
 import '../../../../call_screen.dart';
 import '../../../../core/constants/app_config.dart';
 import '../../../../core/utils/media_res.dart';
@@ -137,28 +136,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          FloatingActionButton(
-            heroTag: "videoCall",
-            onPressed: () async {
-              if (AppConfig().config == null || AppConfig().channel.isEmpty) {
-                fToast("No channel found");
-                return;
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => AdvancedVideoCallScreen(
-                          channelName: AppConfig().channel,
-                          token: AppConfig().token,
-                          appId: AppConfig().appId,
-                        )),
-              );
-            },
-            backgroundColor: Colors.grey,
-            child: const Icon(
-              Icons.video_call,
-            ),
-          ),
           FloatingActionButton(
             heroTag: "call",
             onPressed: () async {

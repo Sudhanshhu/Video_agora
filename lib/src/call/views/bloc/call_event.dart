@@ -29,3 +29,10 @@ class ToggleMuteEvent extends CallEvent {}
 class ToggleScreenShareEvent extends CallEvent {}
 
 class EndCallEvent extends CallEvent {}
+
+class ErrorEvent extends CallEvent {
+  final String message;
+  ErrorEvent(this.message);
+}
+
+class SwitchCameraEvent extends CallEvent {}

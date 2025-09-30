@@ -1,8 +1,6 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import 'bloc/call_bloc.dart';
 import 'bloc/call_event.dart';
 import 'bloc/call_state.dart';
@@ -34,6 +32,49 @@ class _CallScreenState extends State<CallScreen> {
     super.dispose();
   }
 
+  // Display remote participants in a grid
+  Widget buildVideoGrid(CallState state) {
+    final participants = state.participants;
+
+    if (participants.isEmpty || state.rtcEngine == null) {
+      return const Center(
+        child: Text(
+          'Waiting for remote users...',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      );
+    }
+
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: participants.length <= 2
+            ? 1
+            : 2, // 1 column if 1-2 participants, 2 columns if more
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemCount: participants.length,
+      itemBuilder: (context, index) {
+        final participant = participants[index];
+        return Container(
+          color: Colors.black,
+          child: AgoraVideoView(
+            controller: participant.isLocal
+                ? VideoViewController(
+                    rtcEngine: state.rtcEngine!,
+                    canvas: VideoCanvas(uid: participant.uid),
+                  )
+                : VideoViewController.remote(
+                    rtcEngine: state.rtcEngine!,
+                    connection: RtcConnection(channelId: widget.channelName),
+                    canvas: VideoCanvas(uid: participant.uid),
+                  ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -48,30 +89,13 @@ class _CallScreenState extends State<CallScreen> {
           if (state.errorMessage?.isNotEmpty ?? false) {
             return Center(child: Text("ERROR${state.errorMessage}"));
           }
-          Widget videoWidget;
-          if (state.participants.isNotEmpty && state.rtcEngine != null) {
-            final remoteUid = state.participants.last.uid;
-            videoWidget = AgoraVideoView(
-              controller: VideoViewController.remote(
-                rtcEngine: state.rtcEngine!,
-                canvas: VideoCanvas(uid: remoteUid),
-                connection: RtcConnection(channelId: widget.channelName),
-              ),
-            );
-          } else {
-            videoWidget = const Center(
-              child: Text(
-                'Waiting for remote user...',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            );
-          }
-
           return Scaffold(
             backgroundColor: Colors.black,
             body: Stack(
               children: [
-                Positioned.fill(child: videoWidget),
+                Positioned.fill(child: buildVideoGrid(state)),
+
+                // Floating local preview
                 if (state.rtcEngine != null)
                   Positioned(
                     right: 20,
@@ -81,12 +105,11 @@ class _CallScreenState extends State<CallScreen> {
                     child: AgoraVideoView(
                       controller: VideoViewController(
                         rtcEngine: state.rtcEngine!,
-                        canvas: const VideoCanvas(
-                          uid: 0,
-                        ),
+                        canvas: const VideoCanvas(uid: 0),
                       ),
                     ),
                   ),
+
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -119,6 +142,16 @@ class _CallScreenState extends State<CallScreen> {
                                 : Icons.screen_share,
                             color: Colors.black,
                           ),
+                        ),
+
+                        // End Call
+                        FloatingActionButton(
+                          heroTag: "switchCamera",
+                          onPressed: () {
+                            context.read<CallBloc>().add(SwitchCameraEvent());
+                          },
+                          backgroundColor: Colors.indigo,
+                          child: const Icon(Icons.switch_camera),
                         ),
 
                         // End Call
