@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'cmn_text.dart';
-
 class KButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/common/widget/error_view.dart';
 import '../../../../core/common/widget/common_scaffold.dart';
-import '../../data/models/user_model.dart';
 import '../bloc/auth_bloc.dart';
 import 'register_page.dart';
 
@@ -20,10 +19,7 @@ class AuthWrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          UserModel? user = snapshot.data != null
-              ? UserModel.fromFirebaseUser(snapshot.data)
-              : null;
-          return HomePage(user: user!);
+          return const HomeScreen();
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingView();
         } else {
@@ -56,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state is Authenticated) {
             Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return HomePage(user: state.user); // Replace with your home page
+              return const HomeScreen(); // Replace with your home page
             }));
           } else if (state is AuthError) {
             fToast(state.message, type: AlertType.failure);
@@ -66,7 +62,9 @@ class _LoginPageState extends State<LoginPage> {
           if (state is AuthLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is AuthError) {
-            return const ErrorViewWidget();
+            return const ErrorViewWidget(
+              msg: "An error occurred. Please try again.",
+            );
           }
 
           return SignInForm(

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:ecommerce/src/home/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
@@ -85,6 +88,23 @@ class SharedPrefs {
   static Future<bool> clear() async {
     _checkInit();
     return await _prefs!.clear();
+  }
+
+  static List<ApiUser>? getUser() {
+    _checkInit();
+    final userJson = _prefs!.getString(PrefsKeys.user);
+    if (userJson != null) {
+      return (json.decode(userJson) as List)
+          .map((user) => ApiUser.fromMap(user))
+          .toList();
+    }
+    return null;
+  }
+
+  static Future<bool> setUser(List<ApiUser> user) async {
+    _checkInit();
+    final userJson = json.encode(user.map((u) => u.toMap()).toList());
+    return await _prefs!.setString(PrefsKeys.user, userJson);
   }
 }
 
