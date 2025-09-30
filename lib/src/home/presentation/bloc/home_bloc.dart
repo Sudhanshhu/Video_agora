@@ -1,55 +1,24 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../domain/entities/event_entity.dart';
+import 'package:ecommerce/src/home/domain/entities/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/repositories/home_repository.dart';
-
-part 'home_event.dart';
-part 'home_state.dart';
-
-// class HomeBloc extends Bloc<HomeEvent, HomeState> {
-//   HomeBloc() : super(HomeInitial()) {
-//     on<HomeEvent>((event, emit) {
-//       // TODO: implement event handler
-//     });
-//   }
-// }
+import 'home_event.dart';
+import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final HomeRepository repository;
+  final HomeRepository repo;
 
-  HomeBloc(this.repository) : super(HomeInitial()) {
-    on<LoadEventsEvent>(_onLoadEvents);
-    on<CreateEventEvent>(_onCreateEvent);
-    on<IncreaseCreditsEvent>(_onIncreaseCredits);
-    on<ListenStreamingStatusEvent>(_onListenStreamingStatus);
+  HomeBloc(this.repo) : super(const HomeState()) {
+    on<FetchUsers>(_onFetchUsers);
   }
 
-  void _onLoadEvents(LoadEventsEvent event, Emitter<HomeState> emit) {
-    emit(HomeLoading());
-    repository.getEventsStream().listen((events) {
-      add(ListenStreamingStatusEvent());
-      emit(HomeLoaded(events));
-    });
-  }
-
-  void _onCreateEvent(CreateEventEvent event, Emitter<HomeState> emit) async {
-    await repository.createEvent(
-        event.title, event.description, event.startTime, event.userId);
-  }
-
-  void _onIncreaseCredits(
-      IncreaseCreditsEvent event, Emitter<HomeState> emit) async {
-    await repository.increaseCredits(event.userId, event.amount);
-  }
-
-  void _onListenStreamingStatus(
-      ListenStreamingStatusEvent event, Emitter<HomeState> emit) {
-    repository.listenToStreamingStatus().listen((isStreaming) {
-      if (state is HomeLoaded) {
-        final currentState = state as HomeLoaded;
-        emit(HomeLoaded(currentState.events, isStreamingActive: isStreaming));
-      }
-    });
+  Future<void> _onFetchUsers(FetchUsers event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(status: HomeStatus.loading, error: null));
+    try {
+      final response = await repo.fetchUser();
+      final List<ApiUser> users = response.data ?? [];
+      emit(state.copyWith(users: users, status: HomeStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: HomeStatus.failure, error: e.toString()));
+    }
   }
 }
