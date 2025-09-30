@@ -1,5 +1,6 @@
 import 'package:ecommerce/src/home/domain/entities/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/agora_config.dart';
 import '../../domain/repositories/home_repository.dart';
 import 'home_event.dart';
 import 'home_state.dart';
@@ -14,6 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onFetchUsers(FetchUsers event, Emitter<HomeState> emit) async {
     emit(state.copyWith(status: HomeStatus.loading, error: null));
     try {
+      AgoraConfig().loadInitialConfig();
       final response = await repo.fetchUser();
       final List<ApiUser> users = response.data ?? [];
       emit(state.copyWith(users: users, status: HomeStatus.success));

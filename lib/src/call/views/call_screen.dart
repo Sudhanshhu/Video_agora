@@ -1,4 +1,5 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:ecommerce/core/common/widget/error_view.dart';
 import 'package:ecommerce/core/constants/agora_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,8 +138,13 @@ class _CallScreenState extends State<CallScreen> {
       child: BlocBuilder<CallBloc, CallState>(
         builder: (context, state) {
           if (state.errorMessage?.isNotEmpty ?? false) {
-            return Center(child: Text("ERROR${state.errorMessage}"));
+            return ErrorViewWidget(msg: "ERROR${state.errorMessage}");
+            // Center(child: Text("ERROR${state.errorMessage}"));
           }
+          if (state.rtcEngine == null) {
+            return const ErrorViewWidget(msg: "ERROR Engine not started yet");
+          }
+
           return Scaffold(
             backgroundColor: Colors.black,
             body: Stack(
