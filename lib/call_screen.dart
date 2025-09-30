@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'agora_service.dart';
 
-class CallScreen extends StatefulWidget {
+class CallScreenDemo extends StatefulWidget {
   final String channelName;
   final String token;
   final int uid;
 
-  const CallScreen({
+  const CallScreenDemo({
     super.key,
     required this.channelName,
     required this.token,
@@ -15,11 +15,11 @@ class CallScreen extends StatefulWidget {
   });
 
   @override
-  State<CallScreen> createState() => _CallScreenState();
+  State<CallScreenDemo> createState() => _CallScreenDemoState();
 }
 
-class _CallScreenState extends State<CallScreen> {
-  final AgoraService _agoraService = AgoraService();
+class _CallScreenDemoState extends State<CallScreenDemo> {
+  final AgoraServiceWorking _agoraService = AgoraServiceWorking();
   bool localUserJoined = false;
   int? remoteUid;
 

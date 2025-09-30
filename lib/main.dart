@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:ecommerce/src/home/presentation/bloc/home_bloc.dart';
 import 'package:ecommerce/src/on_boarding/presentation/views/on_boarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
