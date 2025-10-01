@@ -60,25 +60,21 @@ class CallBloc extends Bloc<CallEvent, CallState> {
 
       _engine.registerEventHandler(
         RtcEngineEventHandler(onJoinChannelSuccess: (connection, elapsed) {
-          fToast(
-              "joined successfully  ${connection.localUid} Channel $_channelName",
-              type: AlertType.success);
+          fToast("joined successfully", type: AlertType.success);
           add(UserJoinedEvent(Participant(
               uid: connection.localUid ?? _localUid, isLocal: true)));
         }, onUserJoined: (connection, remoteUid, elapsed) {
-          fToast("Remote user id $remoteUid");
+          fToast("Remote user joined");
           add(UserJoinedEvent(Participant(uid: remoteUid, isLocal: false)));
         }, onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
-          fToast("Left $remoteUid");
+          fToast("Left $remoteUid", type: AlertType.failure);
           add(UserLeftEvent(remoteUid));
         }, onError: (err, msg) {
           fToast("Agora Error: $err - $msg", type: AlertType.failure);
           emit(state.copyWith(errorMessage: err.name));
         }, onLocalVideoStateChanged: (VideoSourceType source,
             LocalVideoStreamState state, LocalVideoStreamReason error) {
-          fToast(
-              '[onLocalVideoStateChanged] source: $source, state: $state, error: $error');
           if (!(source == VideoSourceType.videoSourceScreen ||
               source == VideoSourceType.videoSourceScreenPrimary)) {
             return;
@@ -86,10 +82,8 @@ class CallBloc extends Bloc<CallEvent, CallState> {
 
           switch (state) {
             case LocalVideoStreamState.localVideoStreamStateEncoding:
-              fToast("Screen sharing TRUE", type: AlertType.success);
               break;
             case LocalVideoStreamState.localVideoStreamStateFailed:
-              fToast("Screen sharing FALSE", type: AlertType.success);
               break;
             default:
               break;
