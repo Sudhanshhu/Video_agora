@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../core/common/widget/buttons.dart';
 import '../../../../core/common/widget/cmn_text.dart';
@@ -17,7 +18,13 @@ class OnBoardingBody extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(pageContent.image, height: size.height * .4),
+        Lottie.asset(
+          pageContent.image,
+          repeat: false,
+          height: size.height * .4,
+          // width: 200,
+        ),
+        // Image.asset(pageContent.image, height: size.height * .4),
         SizedBox(height: size.height * .03),
         Padding(
           padding: const EdgeInsets.all(20).copyWith(bottom: 0),
@@ -37,7 +44,7 @@ class OnBoardingBody extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 3,
               ),
-              SizedBox(height: size.height * .05),
+              SizedBox(height: size.height * .07),
               KPrimaryBtn(
                 onPressed: () {
                   context.read<OnBoardingCubit>().cacheFirstTimer();

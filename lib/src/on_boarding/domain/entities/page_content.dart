@@ -10,29 +10,29 @@ class PageContent extends Equatable {
 
   const PageContent.first()
       : this(
-          image: MediaRes.casualReading,
-          title: 'Brand new curriculum',
+// Video Calling
+          image: MediaRes.videoCalling,
+          title: 'Seamless Video Calling',
           description:
-              'This is the first online education platform designed by the '
-              "world's top professors",
+              'Connect face-to-face with friends, colleagues, or classmates in real time with crystal-clear video calls.',
         );
 
   const PageContent.second()
       : this(
-          image: MediaRes.casualLife,
-          title: 'Brand a fun atmosphere',
+// Screen Sharing
+          image: MediaRes.screenSharing,
+          title: 'Share Your Screen',
           description:
-              'This is the first online education platform designed by the '
-              "world's top professors",
+              'Present your work, teach lessons, or collaborate on projects easily by sharing your screen instantly.',
         );
 
   const PageContent.third()
       : this(
-          image: MediaRes.casualMeditationScience,
-          title: 'Easy to join the lesson',
+// Mute
+          image: MediaRes.videoEditing,
+          title: 'One-Tap Mute Control',
           description:
-              'This is the first online education platform designed by the '
-              "world's top professors",
+              'Stay in control during calls—mute and unmute your microphone anytime with a single tap.',
         );
 
   final String image;

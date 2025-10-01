@@ -206,8 +206,7 @@ class _CallScreenState extends State<CallScreen> {
                           onPressed: () {
                             context.read<CallBloc>().add(SwitchCameraEvent());
                           },
-                          backgroundColor: Colors.indigo,
-                          child: const Icon(Icons.switch_camera),
+                          child: const Icon(Icons.cameraswitch_rounded),
                         ),
 
                         // End Call
@@ -219,7 +218,6 @@ class _CallScreenState extends State<CallScreen> {
                           backgroundColor: Colors.red,
                           child: const Icon(Icons.call_end),
                         ),
-                        Text("${state.participants.length}"),
                       ],
                     ),
                   ),

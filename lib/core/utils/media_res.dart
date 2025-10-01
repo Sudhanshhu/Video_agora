@@ -14,4 +14,8 @@ class MediaRes {
   static const confetti = '$_baseLottie/confetti.json';
   static const loading = '$_baseLottie/loading.json';
   static const error = '$_baseLottie/error.json';
+
+  static const videoCalling = '$_baseLottie/video_call.json';
+  static const screenSharing = '$_baseLottie/screen_share.json';
+  static const videoEditing = '$_baseLottie/video_control.json';
 }

@@ -56,7 +56,6 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             showPerformanceOverlay: _showPerformanceOverlay,
             title: 'Sales Bets',
-            theme: ThemeData.dark(),
             home: const OnBoardingScreen()),
       ),
     );
